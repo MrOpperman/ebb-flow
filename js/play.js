@@ -15,10 +15,23 @@ var playState = {
         //centerCountDownText();
         
         enemies = game.add.group();
+        enemies.create(100, 400, 'mummy');
+        enemies.create(100, 300, 'mummy');
+        enemies.create(100, 200, 'mummy');
+        enemies.create(100, 100, 'mummy');
         
-        for (var i = 0; i < 1; i++)
+        enemies.create(300, 400, 'mummy');
+        enemies.create(300, 300, 'mummy');
+        enemies.create(300, 200, 'mummy');
+        enemies.create(300, 100, 'mummy');
+        
+        enemies.create(500, 400, 'mummy');
+        enemies.create(500, 300, 'mummy');
+        enemies.create(500, 200, 'mummy');
+        enemies.create(500, 100, 'mummy');
+        
+        for (var i = 0; i < enemies.children.length; i++)
         {
-            enemies.create(100, 200, 'mummy');
             var enemy = enemies.children[i];
             
             enemy.animations.add('walk');
@@ -34,14 +47,23 @@ var playState = {
     },
     
     update: function() {
-        var enemy = enemies.children[0];
+        var firstenemy = enemies.children[0];
+        
+        for (var i = 0; i < enemies.children.length; i++)
+        {
+            var enemy = enemies.children[i];
+            this.world.wrap( enemy, enemy.width / 2, false );
+            
+        }
+        
+        
         this.world.wrap( enemy, enemy.width / 2, false );
         
         // positive = right
         // negative = left        
         // create function here, vertical movement will need to use y axis
         
-        var movement =  enemy.position.x - enemy.previousPosition.x;
+        var movement =  firstenemy.position.x - firstenemy.previousPosition.x;
         // suppose a switch will work here
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT))
         {
@@ -70,19 +92,28 @@ var playState = {
 }
 
 function setDirection() {
-    var upOrDown = ['up', 'down'];
+    var upOrDown = ['up', 'down'];    
     var xydirection = upOrDown[Math.floor(Math.random() * upOrDown.length)];
+    
     var direction = movement_direction[Math.floor(Math.random() * movement_direction.length)];
     var enemy = enemies.children[0];
     
     if (xydirection == 'up')
     {
         //Needs some work, vertical is odd...
-        game.physics.arcade.velocityFromRotation(55, direction, enemy.body.velocity);
+        for (var i = 0; i < enemies.children.length; i++)
+        {
+            var enemy = enemies.children[i];
+            game.physics.arcade.velocityFromRotation(55, direction, enemy.body.velocity);
+        }
     }
     else
     {
-        game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity)
+        for (var i = 0; i < enemies.children.length; i++)
+        {
+            var enemy = enemies.children[i];
+            game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
+        }
     }
     
 };
@@ -94,7 +125,6 @@ function updateTimer() {
     {
         //To remove event:
         //game.time.events.remove(timerEvent);
-        timer = 11;
         game.state.start('boot');
     } 
     else
