@@ -1,3 +1,5 @@
+// Mission Sunset - Palms
+
 var enemies;
 var movement_direction = [50, -50];
 var timer = 60;
@@ -10,25 +12,25 @@ var playState = {
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
         countDownText = this.add.text(0, 0, timer, { font: "65px Arial", fill: "#ff0044"});
 
-        //this.scale.pageAlignHorizontally = true;
-
-        //centerCountDownText();
         
         enemies = game.add.group();
-        enemies.create(100, 400, 'mummy');
-        enemies.create(100, 300, 'mummy');
-        enemies.create(100, 200, 'mummy');
-        enemies.create(100, 100, 'mummy');
         
-        enemies.create(300, 400, 'mummy');
-        enemies.create(300, 300, 'mummy');
-        enemies.create(300, 200, 'mummy');
-        enemies.create(300, 100, 'mummy');
+        // add 8 rows and 4 cols of enemies
+        // make this feel more continuous 
+        var x = 0;
+        for (var i = 0 ; i < 8; i++)
+        {
+            var y = 0;
+            
+            for (var j = 0; j < 5; j++)
+            {
+                enemies.create(x, y, 'mummy');
+                y+=100;
+            }            
+            
+            x+= 100;            
+        }
         
-        enemies.create(500, 400, 'mummy');
-        enemies.create(500, 300, 'mummy');
-        enemies.create(500, 200, 'mummy');
-        enemies.create(500, 100, 'mummy');
         
         for (var i = 0; i < enemies.children.length; i++)
         {
@@ -39,8 +41,7 @@ var playState = {
             game.physics.enable(enemy, Phaser.Physics.ARCADE);
             
             game.physics.arcade.velocityFromRotation(enemy.rotation, 50, enemy.body.velocity);
-            
-            console.log(enemy.body);
+        
         }
         
         this.keyboard = game.input.keyboard;  
@@ -52,12 +53,8 @@ var playState = {
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
-            this.world.wrap( enemy, enemy.width / 2, false );
-            
+            this.world.wrap( enemy, enemy.width / 50, false );            
         }
-        
-        
-        this.world.wrap( enemy, enemy.width / 2, false );
         
         // positive = right
         // negative = left        
