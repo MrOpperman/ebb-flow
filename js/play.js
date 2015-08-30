@@ -62,7 +62,7 @@ var playState = {
                 game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
             }
         }
-        else if (this.keyboard.isDown(Phaser.Keyboard.D) || this.keyboard.isDown(Phaser.Keyboard.LEFT)) 
+        else if (this.keyboard.isDown(Phaser.Keyboard.D) || this.keyboard.isDown(Phaser.Keyboard.RIGHT)) 
         {
             if (movement < 0)
             {
