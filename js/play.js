@@ -51,7 +51,7 @@ var playState = {
         var movement =  enemy.position.x - enemy.previousPosition.x;
         var direction = movement_direction[Math.floor(Math.random() * movement_direction.length)];
         
-        if (this.keyboard.isDown(Phaser.Keyboard.A))
+        if (this.keyboard.isDown(Phaser.Keyboard.A) || this.keyboard.isDown(Phaser.Keyboard.LEFT))
         {
             if (movement > 0)
             {
@@ -62,7 +62,7 @@ var playState = {
                 game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
             }
         }
-        else if (this.keyboard.isDown(Phaser.Keyboard.D)) 
+        else if (this.keyboard.isDown(Phaser.Keyboard.D) || this.keyboard.isDown(Phaser.Keyboard.LEFT)) 
         {
             if (movement < 0)
             {
