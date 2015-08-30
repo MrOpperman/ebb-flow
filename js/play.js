@@ -30,15 +30,7 @@ var playState = {
             console.log(enemy.body);
         }
         
-        this.keyboard = game.input.keyboard;
-        
-        /*this.player = game.add.sprite(16, 16, 'player');
-        game.physics.enable(this.player, Phaser.Physics.ARCADE);
-        
-        this.win = game.add.sprite(256, 256, 'win');
-        game.physics.enable(this.win, Phaser.Physics.ARCADE);*/
-        
-        
+        this.keyboard = game.input.keyboard;  
     },
     
     update: function() {
@@ -48,41 +40,32 @@ var playState = {
         // positive = right
         // negative = left        
         // create function here, vertical movement will need to use y axis
-        var movement =  enemy.position.x - enemy.previousPosition.x;
-        var direction = movement_direction[Math.floor(Math.random() * movement_direction.length)];
         
-        if (this.keyboard.isDown(Phaser.Keyboard.A) || this.keyboard.isDown(Phaser.Keyboard.LEFT))
+        var movement =  enemy.position.x - enemy.previousPosition.x;
+        // suppose a switch will work here
+        if (this.keyboard.isDown(Phaser.Keyboard.LEFT))
         {
-            if (movement > 0)
-            {
-                console.log("WRONG DIRECTION");
-            }
-            else if (movement < 0)
-            {
-                game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
-            }
-            
+            setDirection();            
+        }
+        else if (this.keyboard.isDown(Phaser.Keyboard.RIGHT)) 
+        {
+            setDirection();
+        } 
+        else if (this.keyboard.isDown(Phaser.Keyboard.UP)) 
+        {
             setDirection();
         }
-        else if (this.keyboard.isDown(Phaser.Keyboard.D) || this.keyboard.isDown(Phaser.Keyboard.RIGHT)) 
+        else if (this.keyboard.isDown(Phaser.Keyboard.DOWN)) 
         {
-            if (movement < 0)
-            {
-                alert("WRONG DIRECTION");                
-            }
-            else if (movement > 0)
-            {
-                game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
-            }
+            setDirection();        
         }
-        
         
     },
     
     Win: function() {
         counter++;
         game.state.start('play');
-        console.log(counter);
+        //console.log(counter);
     }
 }
 
@@ -94,19 +77,13 @@ function setDirection() {
     
     if (xydirection == 'up')
     {
-        console.log(enemy.body.velocity)
-        enemy.body.velocity.x = 0;
-        enemy.body.velocity.y = 90;
-        game.physics.arcade.velocityFromRotation(55, 50, enemy.body.velocity);
-        console.log(enemy.body.velocity)
+        //Needs some work, vertical is odd...
+        game.physics.arcade.velocityFromRotation(55, direction, enemy.body.velocity);
     }
     else
     {
         game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity)
     }
-        
-        
-    console.log(xydirection);
     
 };
 
