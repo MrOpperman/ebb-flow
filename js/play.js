@@ -42,8 +42,8 @@ var playState = {
     },
     
     update: function() {
-        //game.physics.arcade.overlap(this.player, this.win, this.Win, null, this);    
         var enemy = enemies.children[0];
+        this.world.wrap( enemy, enemy.width / 2, false );
         
         // positive = right
         // negative = left        
@@ -61,6 +61,8 @@ var playState = {
             {
                 game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
             }
+            
+            setDirection();
         }
         else if (this.keyboard.isDown(Phaser.Keyboard.D) || this.keyboard.isDown(Phaser.Keyboard.RIGHT)) 
         {
@@ -72,7 +74,9 @@ var playState = {
             {
                 game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
             }
-        } 
+        }
+        
+        
     },
     
     Win: function() {
@@ -81,6 +85,31 @@ var playState = {
         console.log(counter);
     }
 }
+
+function setDirection() {
+    var upOrDown = ['up', 'down'];
+    var xydirection = upOrDown[Math.floor(Math.random() * upOrDown.length)];
+    var direction = movement_direction[Math.floor(Math.random() * movement_direction.length)];
+    var enemy = enemies.children[0];
+    
+    if (xydirection == 'up')
+    {
+        console.log(enemy.body.velocity)
+        enemy.body.velocity.x = 0;
+        enemy.body.velocity.y = 90;
+        game.physics.arcade.velocityFromRotation(55, 50, enemy.body.velocity);
+        console.log(enemy.body.velocity)
+    }
+    else
+    {
+        game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity)
+    }
+        
+        
+    console.log(xydirection);
+    
+};
+
 
 function updateTimer() {
     timer -= 1;
