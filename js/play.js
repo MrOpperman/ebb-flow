@@ -16,7 +16,7 @@ var playState = {
         
         counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
 
-        game.add.tileSprite(0, 0, 800, 600, 'background');
+        game.add.tileSprite(0, 0, 1000, 600, 'background');
         enemies = game.add.group();
                 
         for (var i = 0; i < 6; i++)
@@ -69,7 +69,7 @@ var playState = {
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
-            this.world.wrap( enemy, enemy.width / 2, false );            
+            this.world.wrap( enemy, enemy.width / 2, true );            
         }        
     },
     
