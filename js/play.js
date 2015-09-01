@@ -114,7 +114,7 @@ function testKey (key) {
             fail.visible = false;
         }, 200);
     };
-    console.log(position.x, previous_position.x, position.y, previous_position.y);
+    
     switch(key) {
         case 'left': 
             if (  position.x < previous_position.x && position.y == sprevious_position.y)
