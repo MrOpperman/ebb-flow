@@ -6,7 +6,7 @@ var menuState = {
             
         var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
     
-        wkey.onDown.addOnce(this.start, this)
+        wkey.onDown.addOnce(this.start, this);
     },
     
     start: function() {

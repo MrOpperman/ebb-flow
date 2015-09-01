@@ -16,7 +16,7 @@ var playState = {
         
         counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
 
-        
+        game.add.tileSprite(0, 0, 1000, 600, 'background');
         enemies = game.add.group();
         
         // add 8 rows and 4 cols of enemies
@@ -35,22 +35,22 @@ var playState = {
             x += 100;            
         }*/
         
-        enemies.create(100, 200, 'fish2');
-        enemies.create(150, 350, 'fish2');
-        enemies.create(325, 250, 'fish2');
-        enemies.create(400, 200, 'fish2');
+        enemies.create(100, 200, 'blueFish');
+        enemies.create(150, 350, 'blueFish');
+        enemies.create(325, 250, 'blueFish');
+        enemies.create(400, 200, 'blueFish');
  
-        enemies.create(0, 400, 'fish2');
-        enemies.create(600, 315, 'fish2');
-        enemies.create(512, 152, 'fish2');
-        enemies.create(800, 400, 'fish2');
+        enemies.create(0, 400, 'blueFish');
+        enemies.create(600, 315, 'blueFish');
+        enemies.create(512, 152, 'blueFish');
+        enemies.create(800, 400, 'blueFish');
         
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
             
-            //enemy.animations.add('walk');
-            //enemy.animations.play('walk', 30, true);
+            enemy.animations.add('walk');
+            //enemy.animations.play('walk', 20, true);
             game.physics.enable(enemy, Phaser.Physics.ARCADE);
         
         }
@@ -87,7 +87,7 @@ var playState = {
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
-            this.world.wrap( enemy, enemy.width / 100, false );            
+            this.world.wrap( enemy, enemy.width / 2, false );            
         }        
     },
     
@@ -129,7 +129,23 @@ function testKey (key) {
                 console.log("INCORRECT DOWN");
             break;
     }
+    // HORRIBLE HACK - google something better
+    // http://www.html5gamedevs.com/topic/2794-how-to-add-an-animation-to-a-group-sprite/
+    for (var i = 0; i < enemies.children.length; i++)
+    {
+        var enemy = enemies.children[i];
+        enemy.animations.play('walk', 30, true);
+        setTimeout(function () {
+            for (var i = 0; i < enemies.children.length; i++)
+            {
+                var enemy = enemies.children[i];
+                enemy.animations.stop();
+            }
+        }, 400);
+        
+    }
     
+   
     setDirection();
 }
 
