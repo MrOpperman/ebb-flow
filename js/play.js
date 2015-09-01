@@ -52,19 +52,19 @@ var playState = {
         var down = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         
         left.onDown.add(function (key) {
-            setDirection();
+            testKey('left');
         }, this);
         
         right.onDown.add(function (key) {
-            setDirection();
+            testKey('right');
         }, this);
         
         up.onDown.add(function (key) {
-            setDirection();
+            testKey('up');
         }, this);
         
         down.onDown.add(function (key) {
-            setDirection();
+            testKey('down');
         }, this);
     },
     
@@ -85,13 +85,51 @@ var playState = {
     }
 }
 
-function setDirection() {
-    console.log('hey');
+function testKey (key) {
+    var enemy = enemies.children[0];
+    var position = enemy.position;
+    var previous_position = enemy.previousPosition;
+    
+    switch(key) {
+        case 'left': 
+            if (  position.x < previous_position.x )
+                console.log("CORRECT LEFT");
+            else
+                console.log("INCORRECT LEFT");
+            break;
+        case 'right':
+            if (  position.x > previous_position.x )
+                console.log("CORRECT RIGHT");
+            else
+                console.log("INCORRECT RIGHT");
+            break;
+        case 'up':
+            if (  position.y < previous_position.y )
+                console.log("CORRECT UP");
+            else
+                console.log("INCORRECT UP");
+            break;
+        case 'down':
+            if (  position.y > previous_position.y )
+                console.log("CORRECT DOWN SYNDROME");
+            else
+                console.log("INCORRECT DOWN");
+            break;
+    }
+    
+    setDirection();
+}
+
+function setDirection(key) {
+    var key = key; 
     var upOrDown = ['up', 'down'];    
     var xydirection = upOrDown[Math.floor(Math.random() * upOrDown.length)];
     
     var direction = movement_direction[Math.floor(Math.random() * movement_direction.length)];
+    
     var enemy = enemies.children[0];
+    var position = enemy.position;
+    var previous_position = enemy.previousPosition;
     
     if (xydirection == 'up')
     {
@@ -100,19 +138,27 @@ function setDirection() {
         {
             var enemy = enemies.children[i];
             game.physics.arcade.velocityFromRotation(55, direction, enemy.body.velocity);
-            //enemy.angle = 100; 100 = down
-            //enemy.angle = 0; // forward
+            enemy.anchor.setTo(.5,.5);
+            if (direction == -50)
+            {
+                
+                enemy.scale.y = -1;
+            }
+            else
+            {
+                enemy.scale.y = 1;
+            }
             
         }
     }
     else
     {
-        
 
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
             game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
+            enemy.anchor.setTo(.5,.5);
             if (direction == -50)
             {
                 enemy.scale.x = -1;
@@ -133,7 +179,7 @@ function updateTimer() {
     {
         //To remove event:
         //game.time.events.remove(timerEvent);
-        game.state.start('boot');
+        game.state.start('win');
     } 
     else
     {
