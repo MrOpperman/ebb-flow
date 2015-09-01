@@ -7,16 +7,26 @@ var countDownText;
 var timerEvent;
 var counter = 0;
 var counterText;
+var pass;
+var fail;
 
 var playState = {
     create: function() {
+        game.add.tileSprite(0, 0, 1000, 600, 'background');
         timer = 60;
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
         countDownText = this.add.text(0, 0, timer, { font: "65px Arial", fill: "#ff0044"});
         
         counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
 
-        game.add.tileSprite(0, 0, 1000, 600, 'background');
+        pass = this.add.text(400, 300, "PASS!", { font: "100px Arial"});        
+        pass.visible = false;
+        pass.anchor.set(0.5);
+        
+        fail = this.add.text(400, 300, "FAIL!", { font: "100px Arial"});        
+        fail.visible = false;  
+        fail.anchor.set(0.5);
+        
         enemies = game.add.group();
                 
         for (var i = 0; i < 6; i++)
@@ -84,31 +94,55 @@ function testKey (key) {
     var enemy = enemies.children[0];
     var position = enemy.position;
     var previous_position = enemy.previousPosition;
+    function passed () {
+        pass.visible = true;        
+        setTimeout(function () {
+            pass.visible = false;
+        }, 200);  
+    };
     
+    function failed() {
+        fail.visible = true;        
+        setTimeout(function () {
+            fail.visible = false;
+        }, 200);         
+    };
     switch(key) {
         case 'left': 
             if (  position.x < previous_position.x )
+            {
+                passed();
                 updateCounter(game);
+            }
             else
-                console.log("INCORRECT LEFT");
+                failed();
             break;
         case 'right':
             if (  position.x > previous_position.x )
+            {
+                passed();
                 updateCounter(game);
+            }
             else
-                console.log("INCORRECT RIGHT");
+                failed();
             break;
         case 'up':
             if (  position.y < previous_position.y )
+            {
+                passed();
                 updateCounter(game);
+            }
             else
-                console.log("INCORRECT UP");
+                failed();
             break;
         case 'down':
             if (  position.y > previous_position.y )
+            {
+                passed();
                 updateCounter(game);
+            }
             else
-                console.log("INCORRECT DOWN");
+                failed();
             break;
     }
     // HORRIBLE HACK - google something better
