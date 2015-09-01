@@ -11,6 +11,8 @@ var loadState = {
         
         game.load.audio('correct', [ 'assets/correct.wav' ]);
         game.load.audio('wrong', [ 'assets/wrong.wav' ]);
+        game.load.audio('end', [ 'assets/game_end.mp3' ]);
+
 
     },
     

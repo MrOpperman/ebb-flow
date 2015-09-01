@@ -11,6 +11,7 @@ var pass;
 var fail;
 var correct;
 var wrong;
+var game_end;
 
 var playState = {
     create: function() {
@@ -31,6 +32,7 @@ var playState = {
         
         correct = game.add.audio('correct');
         wrong = game.add.audio('wrong');
+        game_end = game.add.audio('end');
         
         enemies = game.add.group();
                 
@@ -117,7 +119,7 @@ function testKey (key) {
     
     switch(key) {
         case 'left': 
-            if (  position.x < previous_position.x && position.y == sprevious_position.y)
+            if (  position.x < previous_position.x && position.y == previous_position.y)
             {
                 passed();
                 updateCounter(game);
@@ -249,6 +251,12 @@ function updateTimer() {
     else
     {
         countDownText.setText(timer);
+    }
+    
+    if (timer == 3)
+    {
+        game_end.play();
+        // play sound   
     }
 }
 
