@@ -45,6 +45,27 @@ var playState = {
         }
         
         this.keyboard = game.input.keyboard;  
+        
+        var left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        var right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        var up = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+        var down = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        
+        left.onDown.add(function (key) {
+            setDirection();
+        }, this);
+        
+        right.onDown.add(function (key) {
+            setDirection();
+        }, this);
+        
+        up.onDown.add(function (key) {
+            setDirection();
+        }, this);
+        
+        down.onDown.add(function (key) {
+            setDirection();
+        }, this);
     },
     
     update: function() {
@@ -54,31 +75,7 @@ var playState = {
         {
             var enemy = enemies.children[i];
             this.world.wrap( enemy, enemy.width / 50, false );            
-        }
-        
-        // positive = right
-        // negative = left        
-        // create function here, vertical movement will need to use y axis
-        
-        var movement =  firstenemy.position.x - firstenemy.previousPosition.x;
-        // suppose a switch will work here
-        if (this.keyboard.isDown(Phaser.Keyboard.LEFT))
-        {
-            setDirection();            
-        }
-        else if (this.keyboard.isDown(Phaser.Keyboard.RIGHT)) 
-        {
-            setDirection();
-        } 
-        else if (this.keyboard.isDown(Phaser.Keyboard.UP)) 
-        {
-            setDirection();
-        }
-        else if (this.keyboard.isDown(Phaser.Keyboard.DOWN)) 
-        {
-            setDirection();        
-        }
-        
+        }        
     },
     
     Win: function() {
@@ -89,6 +86,7 @@ var playState = {
 }
 
 function setDirection() {
+    console.log('hey');
     var upOrDown = ['up', 'down'];    
     var xydirection = upOrDown[Math.floor(Math.random() * upOrDown.length)];
     
@@ -102,14 +100,27 @@ function setDirection() {
         {
             var enemy = enemies.children[i];
             game.physics.arcade.velocityFromRotation(55, direction, enemy.body.velocity);
+            //enemy.angle = 100; 100 = down
+            //enemy.angle = 0; // forward
+            
         }
     }
     else
     {
+        
+
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
             game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
+            if (direction == -50)
+            {
+                enemy.scale.x = -1;
+            }
+            else
+            {
+                enemy.scale.x = 1;
+            }
         }
     }
     
