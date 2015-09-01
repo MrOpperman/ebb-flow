@@ -9,6 +9,8 @@ var counter = 0;
 var counterText;
 var pass;
 var fail;
+var correct;
+var wrong;
 
 var playState = {
     create: function() {
@@ -26,6 +28,9 @@ var playState = {
         fail = this.add.text(400, 300, "FAIL!", { font: "100px Arial"});        
         fail.visible = false;  
         fail.anchor.set(0.5);
+        
+        correct = game.add.audio('correct');
+        wrong = game.add.audio('wrong');
         
         enemies = game.add.group();
                 
@@ -95,21 +100,24 @@ function testKey (key) {
     var position = enemy.position;
     var previous_position = enemy.previousPosition;
     function passed () {
-        pass.visible = true;        
+        pass.visible = true;
+        correct.play();
         setTimeout(function () {
             pass.visible = false;
         }, 200);  
     };
     
     function failed() {
-        fail.visible = true;        
+        fail.visible = true;
+        wrong.play();
         setTimeout(function () {
             fail.visible = false;
-        }, 200);         
+        }, 200);
     };
+    console.log(position.x, previous_position.x, position.y, previous_position.y);
     switch(key) {
         case 'left': 
-            if (  position.x < previous_position.x )
+            if (  position.x < previous_position.x && position.y == sprevious_position.y)
             {
                 passed();
                 updateCounter(game);

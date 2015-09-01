@@ -8,6 +8,10 @@ var loadState = {
         
         game.stage.backgroundColor = '#ffffff' 
         game.load.image("background", 'assets/background.jpg'); 
+        
+        game.load.audio('correct', [ 'assets/correct.wav' ]);
+        game.load.audio('wrong', [ 'assets/wrong.wav' ]);
+
     },
     
     create: function() { 
