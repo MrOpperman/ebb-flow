@@ -21,33 +21,42 @@ var playState = {
         
         // add 8 rows and 4 cols of enemies
         // make this feel more continuous 
-        var x = 0;
+        /*var x = 0;
         for (var i = 0 ; i < 8; i++)
         {
             var y = 0;
             
             for (var j = 0; j < 5; j++)
             {
-                enemies.create(x, y, 'mummy');
-                y+=100;
+                enemies.create(x, y, 'fish1');
+                y += 150;
             }            
             
-            x+= 100;            
-        }
+            x += 100;            
+        }*/
         
+        enemies.create(100, 200, 'fish2');
+        enemies.create(150, 350, 'fish2');
+        enemies.create(325, 250, 'fish2');
+        enemies.create(400, 200, 'fish2');
+ 
+        enemies.create(0, 400, 'fish2');
+        enemies.create(600, 315, 'fish2');
+        enemies.create(512, 152, 'fish2');
+        enemies.create(800, 400, 'fish2');
         
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
             
-            enemy.animations.add('walk');
-            enemy.animations.play('walk', 30, true);
+            //enemy.animations.add('walk');
+            //enemy.animations.play('walk', 30, true);
             game.physics.enable(enemy, Phaser.Physics.ARCADE);
-            
-            game.physics.arcade.velocityFromRotation(enemy.rotation, 50, enemy.body.velocity);
         
         }
-        
+
+        setDirection();
+
         this.keyboard = game.input.keyboard;  
         
         var left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
@@ -78,7 +87,7 @@ var playState = {
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
-            this.world.wrap( enemy, enemy.width / 50, false );            
+            this.world.wrap( enemy, enemy.width / 100, false );            
         }        
     },
     
@@ -121,9 +130,6 @@ function testKey (key) {
             break;
     }
     
-    
-    
-    
     setDirection();
 }
 
@@ -144,16 +150,19 @@ function setDirection(key) {
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
+            //enemy.scale.y = 0;
             game.physics.arcade.velocityFromRotation(55, direction, enemy.body.velocity);
             enemy.anchor.setTo(.5,.5);
+            
+            enemy.angle = 90;
+            enemy.scale.x = 1;
             if (direction == -50)
             {
-                
-                enemy.scale.y = -1;
+                enemy.scale.x = 1;
             }
             else
             {
-                enemy.scale.y = 1;
+                enemy.scale.x = -1;
             }
             
         }
@@ -164,6 +173,8 @@ function setDirection(key) {
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
+            enemy.angle = 0;
+
             game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
             enemy.anchor.setTo(.5,.5);
             if (direction == -50)
