@@ -5,12 +5,16 @@ var movement_direction = [50, -50];
 var timer = 60;
 var countDownText;
 var timerEvent;
+var counter = 0;
+var counterText;
 
 var playState = {
     create: function() {
         timer = 60;
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
         countDownText = this.add.text(0, 0, timer, { font: "65px Arial", fill: "#ff0044"});
+        
+        counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
 
         
         enemies = game.add.group();
@@ -93,29 +97,32 @@ function testKey (key) {
     switch(key) {
         case 'left': 
             if (  position.x < previous_position.x )
-                console.log("CORRECT LEFT");
+                updateCounter(game);
             else
                 console.log("INCORRECT LEFT");
             break;
         case 'right':
             if (  position.x > previous_position.x )
-                console.log("CORRECT RIGHT");
+                updateCounter(game);
             else
                 console.log("INCORRECT RIGHT");
             break;
         case 'up':
             if (  position.y < previous_position.y )
-                console.log("CORRECT UP");
+                updateCounter(game);
             else
                 console.log("INCORRECT UP");
             break;
         case 'down':
             if (  position.y > previous_position.y )
-                console.log("CORRECT DOWN SYNDROME");
+                updateCounter(game);
             else
                 console.log("INCORRECT DOWN");
             break;
     }
+    
+    
+    
     
     setDirection();
 }
@@ -187,3 +194,7 @@ function updateTimer() {
     }
 }
 
+function updateCounter() {
+    counter++;
+    counterText.setText(counter);
+}
