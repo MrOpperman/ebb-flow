@@ -16,34 +16,16 @@ var playState = {
         
         counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
 
-        game.add.tileSprite(0, 0, 1000, 600, 'background');
+        game.add.tileSprite(0, 0, 800, 600, 'background');
         enemies = game.add.group();
-        
-        // add 8 rows and 4 cols of enemies
-        // make this feel more continuous 
-        /*var x = 0;
-        for (var i = 0 ; i < 8; i++)
+                
+        for (var i = 0; i < 6; i++)
         {
-            var y = 0;
-            
-            for (var j = 0; j < 5; j++)
-            {
-                enemies.create(x, y, 'fish1');
-                y += 150;
-            }            
-            
-            x += 100;            
-        }*/
+            enemies.create(120 * i, game.rnd.integerInRange(100, 400), 'blueFish');    
+        }
         
-        enemies.create(100, 200, 'blueFish');
-        enemies.create(150, 350, 'blueFish');
-        enemies.create(325, 250, 'blueFish');
-        enemies.create(400, 200, 'blueFish');
- 
-        enemies.create(0, 400, 'blueFish');
-        enemies.create(600, 315, 'blueFish');
-        enemies.create(512, 152, 'blueFish');
-        enemies.create(800, 400, 'blueFish');
+        enemies.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50, false);
+        
         
         for (var i = 0; i < enemies.children.length; i++)
         {
@@ -131,7 +113,7 @@ function testKey (key) {
     }
     // HORRIBLE HACK - google something better
     // http://www.html5gamedevs.com/topic/2794-how-to-add-an-animation-to-a-group-sprite/
-    for (var i = 0; i < enemies.children.length; i++)
+    /*for (var i = 0; i < enemies.children.length; i++)
     {
         var enemy = enemies.children[i];
         enemy.animations.play('walk', 30, true);
@@ -143,9 +125,10 @@ function testKey (key) {
             }
         }, 400);
         
-    }
+    }*/
     
-   
+    enemies.callAll('animations.play', 'animations', 'spin');
+    
     setDirection();
 }
 
@@ -159,6 +142,14 @@ function setDirection(key) {
     var enemy = enemies.children[0];
     var position = enemy.position;
     var previous_position = enemy.previousPosition;
+    
+    for (var i = 0; i < enemies.children.length; i++)
+    {
+        var enemy = enemies.children[i];
+        enemy.position.x = 150 * i;
+        enemy.position.y = game.rnd.integerInRange(100, 600)
+        //enemies.create(120 * i, game.rnd.integerInRange(100, 400), 'blueFish');    
+    }
     
     if (xydirection == 'up')
     {
@@ -185,7 +176,6 @@ function setDirection(key) {
     }
     else
     {
-
         for (var i = 0; i < enemies.children.length; i++)
         {
             var enemy = enemies.children[i];
@@ -202,8 +192,7 @@ function setDirection(key) {
                 enemy.scale.x = 1;
             }
         }
-    }
-    
+    }    
 };
 
 
