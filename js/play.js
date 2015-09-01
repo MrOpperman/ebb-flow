@@ -22,12 +22,12 @@ var playState = {
         
         counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
 
-        pass = this.add.text(400, 300, "PASS!", { font: "100px Arial"});        
+        pass = this.add.sprite(400, 300, 'correct');        
         pass.visible = false;
         pass.anchor.set(0.5);
         
-        fail = this.add.text(400, 300, "FAIL!", { font: "100px Arial"});        
-        fail.visible = false;  
+        fail = this.add.sprite(400, 300, 'wrong');        
+        fail.visible = false;
         fail.anchor.set(0.5);
         
         correct = game.add.audio('correct');
@@ -128,7 +128,7 @@ function testKey (key) {
                 failed();
             break;
         case 'right':
-            if (  position.x > previous_position.x )
+            if (  position.x > previous_position.x && position.y == previous_position.y)
             {
                 passed();
                 updateCounter(game);

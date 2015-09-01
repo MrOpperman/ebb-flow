@@ -5,6 +5,9 @@ var loadState = {
         game.load.spritesheet('blueFish', 'assets/spritealivefish.png', 200, 100, 12);
         game.load.image('fish1', 'assets/sprites1.png');
         game.load.image('fish2', 'assets/sprites2.png');
+        game.load.image('correct', 'assets/correct.png');
+        game.load.image('wrong', 'assets/wrong.png');
+
         
         game.stage.backgroundColor = '#ffffff' 
         game.load.image("background", 'assets/background.jpg'); 

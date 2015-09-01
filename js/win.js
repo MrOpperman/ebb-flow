@@ -5,8 +5,6 @@ var winState = {
         
         var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
         
-        console.log(counter);
-        
         wkey.onDown.addOnce(this.restart, this);
     },
     
