@@ -20,6 +20,10 @@ var loadState = {
         game.load.image('timeOverlay', 'assets/time.png');
         
         game.load.image('clam', 'assets/clam.png');
+        game.load.image('clam1', 'assets/clam1.png');
+        game.load.image('clam2', 'assets/clam2.png');
+        game.load.image('clam3', 'assets/clam3.png');
+        game.load.image('clam4', 'assets/clam4.png');
         
         game.load.image('play', 'assets/play_btn_normal.png');
         game.load.image('play_press', 'assets/play_btn_press.png');
