@@ -6,6 +6,7 @@ var timer = 60;
 var countDownText;
 var timerEvent;
 var counter = 0;
+var playerScore = 0;
 var counterText;
 var pass;
 var fail;
@@ -29,51 +30,61 @@ var scoreText,
 
 var clam;
 
+var times = [];
+var timemsEvent;
+
+var time = 0,
+    actionTime;
+
+var timeSinceChange;
+
+var playerTimer;
+var correctCount = 0,
+    wrongCount = 0;
+
 var playState = {
     create: function() {
         game.add.tileSprite(0, 0, 1000, 600, 'background');
         timer = 60;
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
-                
-        enemies = game.add.group();
 
-       
+        enemies = game.add.group();
         
         pointingWhite = this.add.sprite(230, 555, 'pointingWhite');
-        movingWhite = this.add.sprite(370, 555, 'movingWhite');        
+        movingWhite = this.add.sprite(370, 555, 'movingWhite');
         
         pointingFilled = this.add.sprite(230, 555, 'pointingFilled');
         pointingFilled.visible = false;
         
         movingFilled = this.add.sprite(370, 555, 'movingFilled');        
         movingFilled.visible = false;
+        
         createFish();
-        pass = this.add.sprite(400, 300, 'correct');        
+        
+        pass = this.add.sprite(400, 300, 'correct');
         pass.visible = false;
         pass.anchor.set(0.5);
         
-        fail = this.add.sprite(400, 300, 'wrong');        
+        fail = this.add.sprite(400, 300, 'wrong');
         fail.visible = false;
         fail.anchor.set(0.5);
         
         correct = game.add.audio('correct');
         wrong = game.add.audio('wrong');
         game_end = game.add.audio('end');
- 
-        
+         
         timerOverlay = this.add.sprite(356, 5, 'timeOverlay');
         scoreOverlay = this.add.sprite(478, 5, 'scoreOverlay');
         multiplierOverlay = this.add.sprite(650, 5, 'bonusOverlay');
         
         clam = this.add.sprite(680 , 15 ,'clam');
-        
-        
+                
         countDownText = this.add.text(370, 12, "TIME " + timer, { font: "18px Arial", fill: "#000000"});
         counterText = this.add.text(500, 12, "SCORE " + counter, { font: "18px Arial", fill: "#000000"});
         
         setDirection();
 
-        this.keyboard = game.input.keyboard;  
+        this.keyboard = game.input.keyboard;
         
         var left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         var right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
@@ -104,7 +115,7 @@ var playState = {
         {
             var enemy = enemies.children[i];
             this.world.wrap( enemy, enemy.width / 2, true );            
-        }        
+        }
     },
     
     Win: function() {
@@ -115,8 +126,9 @@ var playState = {
 }
 
 
-function createFish() {     
+function createFish() {
     enemies.children = [];
+
     var fishOptions = ['blueFish', 'pinkFish']
     var fish = fishOptions[Math.floor(Math.random() * fishOptions.length)];
     
@@ -159,6 +171,9 @@ function createFish() {
     enemies.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50, false);
 
     enemies.callAll('animations.play', 'animations', 'spin'); 
+    
+    time = new Date().getTime();
+
 };
 
 function testKey (key) {
@@ -168,6 +183,9 @@ function testKey (key) {
     function passed () {
         pass.visible = true;
         correct.play();
+        correctCount++;
+        actionTime = new Date().getTime();
+        playerTimePass();
         setTimeout(function () {
             pass.visible = false;
         }, 200);  
@@ -176,6 +194,9 @@ function testKey (key) {
     function failed() {
         fail.visible = true;
         wrong.play();
+        wrongCount++;
+        actionTime = new Date().getTime();
+        playerTimeFail();
         setTimeout(function () {
             fail.visible = false;
         }, 200);
@@ -186,7 +207,6 @@ function testKey (key) {
             if (  position.x < previous_position.x && position.y == previous_position.y)
             {
                 passed();
-                updateCounter(game);
             }
             else
                 failed();
@@ -195,7 +215,6 @@ function testKey (key) {
             if (  position.x > previous_position.x && position.y == previous_position.y)
             {
                 passed();
-                updateCounter(game);
             }
             else
                 failed();
@@ -204,7 +223,6 @@ function testKey (key) {
             if (  position.y < previous_position.y )
             {
                 passed();
-                updateCounter(game);
             }
             else
                 failed();
@@ -213,7 +231,6 @@ function testKey (key) {
             if (  position.y > previous_position.y )
             {
                 passed();
-                updateCounter(game);
             }
             else
                 failed();
@@ -297,25 +314,51 @@ function setDirection(key) {
     }    
 };
 
+function updateScore (timeTaken) {
+    var newScore = 1 * 1000 - (timeTaken * 1);
+    console.log(playerScore);
+    
+    if (newScore < 0)
+        playerScore = playerScore + 0;
+    else
+        playerScore = playerScore + 1 * 1000 - (timeTaken * 1);
+    
+    counterText.setText("SCORE " + playerScore);
+    // 1 = multiplier
+    console.log("YEAH!");
+};
+
+function playerTimePass () {
+    var timeTaken = actionTime - time;
+    times.push(timeTaken);
+    updateScore(timeTaken);
+    console.log(timeTaken);
+};
+
+function playerTimeFail () {
+    var timeTaken = actionTime - time;
+    times.push(timeTaken);
+
+};
+
+function reduceMultiplier() {
+
+};
+
+function increaseMultiplier () {
+    
+};
 
 function updateTimer() {
     timer -= 1;
+    
     if(timer === 0) 
-    {
-        //To remove event:
-        //game.time.events.remove(timerEvent);
         game.state.start('win');
-    } 
     else
-    {
-        countDownText.setText("TIME: " + timer);
-    }
+        countDownText.setText("TIME " + timer);
     
     if (timer == 3)
-    {
         game_end.play();
-        // play sound   
-    }
 }
 
 function updateCounter() {

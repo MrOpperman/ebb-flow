@@ -21,6 +21,9 @@ var loadState = {
         
         game.load.image('clam', 'assets/clam.png');
         
+        game.load.image('play', 'assets/play_btn_normal.png');
+        game.load.image('play_press', 'assets/play_btn_press.png');
+        
         game.stage.backgroundColor = '#ffffff' 
         game.load.image("background", 'assets/background.jpg'); 
         
