@@ -13,15 +13,35 @@ var correct;
 var wrong;
 var game_end;
 
+var pointingWhite,
+    pointingFilled;
+
+var movingWhite,
+    movingFilled;
+
+var scoreOverlay,
+    multiplierOverlay,
+    timerOverlay;
+
+var scoreText,
+    multiplierText,
+    timerText;
+
 var playState = {
     create: function() {
         game.add.tileSprite(0, 0, 1000, 600, 'background');
         timer = 60;
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
-        countDownText = this.add.text(0, 0, timer, { font: "65px Arial", fill: "#ff0044"});
         
-        counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
-
+        pointingWhite = this.add.sprite(230, 555, 'pointingWhite');
+        movingWhite = this.add.sprite(370, 555, 'movingWhite');        
+        
+        pointingFilled = this.add.sprite(230, 555, 'pointingFilled');
+        pointingFilled.visible = false;
+        
+        movingFilled = this.add.sprite(370, 555, 'movingFilled');        
+        movingFilled.visible = false;
+        
         pass = this.add.sprite(400, 300, 'correct');        
         pass.visible = false;
         pass.anchor.set(0.5);
@@ -35,25 +55,16 @@ var playState = {
         game_end = game.add.audio('end');
         
         enemies = game.add.group();
-                
-        for (var i = 0; i < 6; i++)
-        {
-            enemies.create(120 * i, game.rnd.integerInRange(100, 400), 'blueFish');    
-        }
-        
-        enemies.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50, false);
-        
-        
-        for (var i = 0; i < enemies.children.length; i++)
-        {
-            var enemy = enemies.children[i];
-            
-            enemy.animations.add('walk');
-            //enemy.animations.play('walk', 20, true);
-            game.physics.enable(enemy, Phaser.Physics.ARCADE);
-        
-        }
 
+        createFish();
+        
+        timerOverlay = this.add.sprite(360, 5, 'overlay');
+        scoreOverlay = this.add.sprite(505, 5, 'overlay');
+        multiplierOverlay = this.add.sprite(650, 5, 'overlay');
+        
+        countDownText = this.add.text(370, 5, timer, { font: "18px Arial", fill: "#000000"});
+        counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
+        
         setDirection();
 
         this.keyboard = game.input.keyboard;  
@@ -96,6 +107,52 @@ var playState = {
         //console.log(counter);
     }
 }
+
+
+function createFish() {     
+    enemies.children = [];
+    var fishOptions = ['blueFish', 'pinkFish']
+    var fish = fishOptions[Math.floor(Math.random() * fishOptions.length)];
+    
+    for (var i = 0; i < 6; i++)
+    {
+        enemies.create(120 * i, game.rnd.integerInRange(100, 400), fish);    
+    }
+    
+            
+    for (var i = 0; i < enemies.children.length; i++)
+    {
+        var enemy = enemies.children[i];
+
+        enemy.animations.add('walk');
+        //enemy.animations.play('walk', 20, true);
+        game.physics.enable(enemy, Phaser.Physics.ARCADE);
+        
+        if (fish == 'pinkFish')
+        {
+            // get a nicer way to toggle;
+            
+            movingWhite.visible = false;
+            movingFilled.visible = true;
+            pointingWhite.visible = true;
+            pointingFilled.visible = false;
+            
+            enemy.setRotation = false;            
+        }
+        else
+        {
+            movingWhite.visible = true;
+            movingFilled.visible = false;
+            pointingWhite.visible = false;
+            pointingFilled.visible = true;
+            
+            enemy.setRotation = true;
+        }
+    }
+            
+    enemies.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50, false);
+        
+};
 
 function testKey (key) {
     var enemy = enemies.children[0];
@@ -155,26 +212,12 @@ function testKey (key) {
                 failed();
             break;
     }
-    // HORRIBLE HACK - google something better
-    // http://www.html5gamedevs.com/topic/2794-how-to-add-an-animation-to-a-group-sprite/
-    /*for (var i = 0; i < enemies.children.length; i++)
-    {
-        var enemy = enemies.children[i];
-        enemy.animations.play('walk', 30, true);
-        setTimeout(function () {
-            for (var i = 0; i < enemies.children.length; i++)
-            {
-                var enemy = enemies.children[i];
-                enemy.animations.stop();
-            }
-        }, 400);
-        
-    }*/
     
     enemies.callAll('animations.play', 'animations', 'spin');
     
     setDirection();
 }
+
 
 function setDirection(key) {
     var key = key; 
@@ -186,14 +229,10 @@ function setDirection(key) {
     var enemy = enemies.children[0];
     var position = enemy.position;
     var previous_position = enemy.previousPosition;
-    
-    for (var i = 0; i < enemies.children.length; i++)
-    {
-        var enemy = enemies.children[i];
-        enemy.position.x = 150 * i;
-        enemy.position.y = game.rnd.integerInRange(100, 600)
-        //enemies.create(120 * i, game.rnd.integerInRange(100, 400), 'blueFish');    
-    }
+    var randomRotation = [-1, 1];
+    var randomRotationX = randomRotation[Math.floor(Math.random() * randomRotation.length)];
+    var randomRotationY = randomRotation[Math.floor(Math.random() * randomRotation.length)];
+    createFish();
     
     if (xydirection == 'up')
     {
@@ -206,16 +245,19 @@ function setDirection(key) {
             enemy.anchor.setTo(.5,.5);
             
             enemy.angle = 90;
-            enemy.scale.x = 1;
-            if (direction == -50)
+            
+            if (enemy.setRotation)
             {
-                enemy.scale.x = 1;
+                if (direction == -50)
+                    enemy.scale.x = 1;
+                else
+                    enemy.scale.x = -1;
             }
             else
             {
-                enemy.scale.x = -1;
+                enemy.scale.x = randomRotationX;
+                enemy.scale.y = randomRotationY;
             }
-            
         }
     }
     else
@@ -227,13 +269,17 @@ function setDirection(key) {
 
             game.physics.arcade.velocityFromRotation(enemy.rotation, direction, enemy.body.velocity);
             enemy.anchor.setTo(.5,.5);
-            if (direction == -50)
+            if (enemy.setRotation)
             {
-                enemy.scale.x = -1;
+                if (direction == -50)
+                    enemy.scale.x = -1;
+                else
+                    enemy.scale.x = 1;
             }
             else
             {
-                enemy.scale.x = 1;
+                enemy.scale.x = randomRotationX;
+                enemy.scale.y = randomRotationY;
             }
         }
     }    

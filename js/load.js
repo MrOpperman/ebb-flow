@@ -3,11 +3,18 @@ var loadState = {
         var loadingLabel = game.add.text(80, 150, 'loading...', { font: '30px Courier', fill: '#ffffff' });
         
         game.load.spritesheet('blueFish', 'assets/spritealivefish.png', 200, 100, 12);
+        game.load.spritesheet('pinkFish', 'assets/spritespinkfish.png', 200, 100, 12);
         game.load.image('fish1', 'assets/sprites1.png');
         game.load.image('fish2', 'assets/sprites2.png');
         game.load.image('correct', 'assets/correct.png');
         game.load.image('wrong', 'assets/wrong.png');
-
+        
+        game.load.image('pointingWhite', 'assets/pointing1.png');
+        game.load.image('pointingFilled', 'assets/pointing2.png');
+        game.load.image('movingWhite', 'assets/moving1.png');
+        game.load.image('movingFilled', 'assets/moving2.png');
+        
+        game.load.image('overlay', 'assets/transparent_overlay.png');
         
         game.stage.backgroundColor = '#ffffff' 
         game.load.image("background", 'assets/background.jpg'); 
