@@ -15,6 +15,11 @@ var loadState = {
         game.load.image('movingFilled', 'assets/moving2.png');
         
         game.load.image('overlay', 'assets/transparent_overlay.png');
+        game.load.image('scoreOverlay', 'assets/score.png');
+        game.load.image('bonusOverlay', 'assets/bonus.png');
+        game.load.image('timeOverlay', 'assets/time.png');
+        
+        game.load.image('clam', 'assets/clam.png');
         
         game.stage.backgroundColor = '#ffffff' 
         game.load.image("background", 'assets/background.jpg'); 

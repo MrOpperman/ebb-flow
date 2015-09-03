@@ -27,11 +27,17 @@ var scoreText,
     multiplierText,
     timerText;
 
+var clam;
+
 var playState = {
     create: function() {
         game.add.tileSprite(0, 0, 1000, 600, 'background');
         timer = 60;
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
+                
+        enemies = game.add.group();
+
+       
         
         pointingWhite = this.add.sprite(230, 555, 'pointingWhite');
         movingWhite = this.add.sprite(370, 555, 'movingWhite');        
@@ -41,7 +47,7 @@ var playState = {
         
         movingFilled = this.add.sprite(370, 555, 'movingFilled');        
         movingFilled.visible = false;
-        
+        createFish();
         pass = this.add.sprite(400, 300, 'correct');        
         pass.visible = false;
         pass.anchor.set(0.5);
@@ -53,17 +59,17 @@ var playState = {
         correct = game.add.audio('correct');
         wrong = game.add.audio('wrong');
         game_end = game.add.audio('end');
+ 
         
-        enemies = game.add.group();
-
-        createFish();
+        timerOverlay = this.add.sprite(356, 5, 'timeOverlay');
+        scoreOverlay = this.add.sprite(478, 5, 'scoreOverlay');
+        multiplierOverlay = this.add.sprite(650, 5, 'bonusOverlay');
         
-        timerOverlay = this.add.sprite(360, 5, 'overlay');
-        scoreOverlay = this.add.sprite(505, 5, 'overlay');
-        multiplierOverlay = this.add.sprite(650, 5, 'overlay');
+        clam = this.add.sprite(680 , 15 ,'clam');
         
-        countDownText = this.add.text(370, 5, timer, { font: "18px Arial", fill: "#000000"});
-        counterText = this.add.text(100, 0, counter, { font: "65px Arial", fill: "#ff0044"});
+        
+        countDownText = this.add.text(370, 12, "TIME " + timer, { font: "18px Arial", fill: "#000000"});
+        counterText = this.add.text(500, 12, "SCORE " + counter, { font: "18px Arial", fill: "#000000"});
         
         setDirection();
 
@@ -149,9 +155,10 @@ function createFish() {
             enemy.setRotation = true;
         }
     }
-            
+           
     enemies.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50, false);
-        
+
+    enemies.callAll('animations.play', 'animations', 'spin'); 
 };
 
 function testKey (key) {
@@ -230,8 +237,11 @@ function setDirection(key) {
     var position = enemy.position;
     var previous_position = enemy.previousPosition;
     var randomRotation = [-1, 1];
+    var directions = [0, 90];
     var randomRotationX = randomRotation[Math.floor(Math.random() * randomRotation.length)];
     var randomRotationY = randomRotation[Math.floor(Math.random() * randomRotation.length)];
+    var randomDirection = directions[Math.floor(Math.random() * directions.length)];
+    
     createFish();
     
     if (xydirection == 'up')
@@ -255,6 +265,7 @@ function setDirection(key) {
             }
             else
             {
+                enemy.angle = randomDirection;
                 enemy.scale.x = randomRotationX;
                 enemy.scale.y = randomRotationY;
             }
@@ -278,6 +289,7 @@ function setDirection(key) {
             }
             else
             {
+                enemy.angle = randomDirection;
                 enemy.scale.x = randomRotationX;
                 enemy.scale.y = randomRotationY;
             }
@@ -296,7 +308,7 @@ function updateTimer() {
     } 
     else
     {
-        countDownText.setText(timer);
+        countDownText.setText("TIME: " + timer);
     }
     
     if (timer == 3)
@@ -308,5 +320,5 @@ function updateTimer() {
 
 function updateCounter() {
     counter++;
-    counterText.setText(counter);
+    counterText.setText("SCORE " + counter);
 }
