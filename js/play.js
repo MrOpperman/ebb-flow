@@ -49,7 +49,7 @@ var multiplier = 1,
 var playState = {
     create: function() {
         game.add.tileSprite(0, 0, 1000, 600, 'background');
-        timer = 10;
+        timer = 60;
         tally = 0;
         multiplier = 1;
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
