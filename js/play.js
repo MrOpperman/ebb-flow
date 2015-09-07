@@ -49,20 +49,23 @@ var multiplier = 1,
 var playState = {
     create: function() {
         game.add.tileSprite(0, 0, 1000, 600, 'background');
-        timer = 60;
+        timer = 10;
         tally = 0;
         multiplier = 1;
         timerEvent = this.time.events.loop(Phaser.Timer.SECOND, updateTimer);
+        correctCount = 0; 
+        wrongCount = 0;
+        times = [];
 
         enemies = game.add.group();
         
-        pointingWhite = this.add.sprite(230, 560, 'pointingWhite');
-        movingWhite = this.add.sprite(370, 560, 'movingWhite');
+        pointingWhite = this.add.sprite(250, 560, 'pointingWhite');
+        movingWhite = this.add.sprite(390, 560, 'movingWhite');
         
-        pointingFilled = this.add.sprite(230, 560, 'pointingFilled');
+        pointingFilled = this.add.sprite(250, 560, 'pointingFilled');
         pointingFilled.visible = false;
         
-        movingFilled = this.add.sprite(370, 560, 'movingFilled');        
+        movingFilled = this.add.sprite(390, 560, 'movingFilled');        
         movingFilled.visible = false;
         
         createFish();
@@ -79,15 +82,15 @@ var playState = {
         wrong = game.add.audio('wrong');
         game_end = game.add.audio('end');
          
-        timerOverlay = this.add.sprite(356, 5, 'timeOverlay');
-        scoreOverlay = this.add.sprite(478, 5, 'scoreOverlay');
-        multiplierOverlay = this.add.sprite(650, 5, 'bonusOverlay');
+        timerOverlay = this.add.sprite(356, 0, 'timeOverlay');
+        scoreOverlay = this.add.sprite(478, 0, 'scoreOverlay');
+        multiplierOverlay = this.add.sprite(650, 0, 'bonusOverlay');
         
-        clam = this.add.sprite(660 , 15 ,'clam');
+        clam = this.add.sprite(660 , 10 ,'clam');
                 
-        countDownText = this.add.text(370, 12, "TIME " + timer, { font: "18px Arial", fill: "#182c3e"});
-        counterText = this.add.text(500, 12, "SCORE " + counter, { font: "18px Arial", fill: "#182c3e"});
-        multiplierText = this.add.text(740, 12, "x" + multiplier, { font: "18px Arial", fill: "#182c3e"});
+        countDownText = this.add.text(370, 7, "TIME " + timer, { font: "18px Arial", fill: "#182c3e"});
+        counterText = this.add.text(500, 7, "SCORE " + counter, { font: "18px Arial", fill: "#182c3e"});
+        multiplierText = this.add.text(740, 7, "x" + multiplier, { font: "18px Arial", fill: "#182c3e"});
         
         setDirection();
 
@@ -128,7 +131,6 @@ var playState = {
     Win: function() {
         counter++;
         game.state.start('play');
-        //console.log(counter);
     }
 }
 
@@ -323,7 +325,6 @@ function setDirection(key) {
 
 function updateScore (timeTaken) {
     var newScore = multiplier * 1000 - (timeTaken * multiplier);
-    console.log(playerScore);
     
     if (newScore < 0)
         playerScore = playerScore + 0;
@@ -331,8 +332,6 @@ function updateScore (timeTaken) {
         playerScore = playerScore + newScore;
     
     counterText.setText("SCORE " + playerScore);
-    // 1 = multiplier
-    console.log("YEAH!");
 };
 
 function playerTimePass () {
@@ -383,15 +382,15 @@ function setMultiplier () {
     clam.kill();
     
     if (tally == 0)
-        clam = game.add.sprite(660 , 15 ,'clam');  
+        clam = game.add.sprite(660 , 10 ,'clam');  
     if (tally == 1)
-        clam = game.add.sprite(660 , 15 ,'clam1');   
+        clam = game.add.sprite(660 , 10 ,'clam1');   
     if (tally == 2)
-        clam = game.add.sprite(660 , 15 ,'clam2');
+        clam = game.add.sprite(660 , 10 ,'clam2');
     if (tally == 3)
-        clam = game.add.sprite(660 , 15 ,'clam3');
+        clam = game.add.sprite(660 , 10 ,'clam3');
     if (tally == 4)
-        clam = game.add.sprite(660 , 15 ,'clam4');
+        clam = game.add.sprite(660 , 10 ,'clam4');
     
     multiplierText.setText("x" + multiplier);
 };

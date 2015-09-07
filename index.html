@@ -3,6 +3,22 @@
         <meta charset = "utf-8" />
         
         <title>Ebb & Flow</title>
+                
+        <style>
+            @font-face {
+                font-family: 'MuseoSans'; 
+                src: url ('font/MuseoSans_500.otf') format("opentype");
+            }
+            
+            body  {
+                font-family: 'MuseoSans';
+            }
+            
+            #preload-font {
+                position: absolute;
+                left: -1000px;
+            }
+        </style>
         
         <script src = "phaser.min.js"></script>
         
@@ -11,11 +27,13 @@
         <script src = "js/menu.js"></script>
         <script src = "js/play.js"></script>
         <script src = "js/win.js"></script>
-        <script src = "js/game.js"></script>       
+        <script src = "js/game.js"></script>
+        
     </head>
     
     <body>
-    
+        <span id="preload-font"></span>
+        <div id = "game_div"></div>
     </body>
 
 </html>

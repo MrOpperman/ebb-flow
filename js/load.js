@@ -27,6 +27,9 @@ var loadState = {
         
         game.load.image('play', 'assets/play_btn_normal.png');
         game.load.image('play_press', 'assets/play_btn_press.png');
+                
+        game.load.image('continue', 'assets/continue_btn_normal.png');
+        game.load.image('continue_press', 'assets/continue_btn_press.png');
         
         game.stage.backgroundColor = '#ffffff' 
         game.load.image("background", 'assets/background.jpg'); 
