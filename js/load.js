@@ -1,6 +1,6 @@
 var loadState = {
     preload: function() {
-        var loadingLabel = game.add.text(80, 150, 'loading...', { font: '30px Courier', fill: '#000000' });
+        var loadingLabel = game.add.text(80, 150, 'loading...', { font: '30px Courier', fill: '#ffffff' });
         
         game.load.spritesheet('blueFish', 'assets/spritealivefish.png', 200, 100, 12);
         game.load.spritesheet('pinkFish', 'assets/spritespinkfish.png', 200, 100, 12);
@@ -32,7 +32,8 @@ var loadState = {
         game.load.image('continue_press', 'assets/continue_btn_press.png');
         
         game.stage.backgroundColor = '#ffffff' 
-        game.load.image("background", 'assets/background.jpg');         
+        game.load.image("background", 'assets/background.jpg'); 
+        
         
         game.load.audio('correct', [ 'assets/correct.wav' ]);
         game.load.audio('wrong', [ 'assets/wrong.wav' ]);
@@ -42,7 +43,6 @@ var loadState = {
     },
     
     create: function() { 
-        game.add.tileSprite(0, 0, 1000, 600, 'background');
         game.state.start('menu');
     }
 }
