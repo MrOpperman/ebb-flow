@@ -89,7 +89,7 @@ var playState = {
         clam = this.add.sprite(660 , 10 ,'clam');
                 
         countDownText = this.add.text(370, 7, "TIME " + timer, { font: "18px Arial", fill: "#182c3e"});
-        counterText = this.add.text(500, 7, "SCORE " + counter, { font: "18px Arial", fill: "#182c3e"});
+        counterText = this.add.text(490, 7, "SCORE " + counter, { font: "18px Arial", fill: "#182c3e"});
         multiplierText = this.add.text(740, 7, "x" + multiplier, { font: "18px Arial", fill: "#182c3e"});
         
         setDirection();
@@ -177,7 +177,7 @@ function createFish() {
         }
     }
            
-    enemies.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 50, false);
+    enemies.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 60, false);
 
     enemies.callAll('animations.play', 'animations', 'spin'); 
     
