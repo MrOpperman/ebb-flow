@@ -324,7 +324,8 @@ function setDirection(key) {
 };
 
 function updateScore (timeTaken) {
-    var newScore = multiplier * 1000 - (timeTaken * multiplier);
+    var newScore = ((1000 - timeTaken)/2) + (multiplier * 10);
+    newScore = Math.round(newScore);
     
     if (newScore < 0)
         playerScore = playerScore + 0;
