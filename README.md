@@ -1,3 +1,4 @@
+![Game splash screen](game-image.png)
 ## SETUP
 
 1. Clone repository
