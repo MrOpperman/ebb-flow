@@ -1,5 +1,5 @@
 ![Game splash screen](game-image.png)
-## SETUP
+## Setup
 
 1. Clone repository
 2. CD into ebb-flow
